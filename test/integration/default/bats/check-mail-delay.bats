@@ -7,7 +7,7 @@ setup() {
 
   unset GEM_HOME
   unset GEM_PATH
-  source /etc/profile
+  [ -e /etc/profile.d/rvm.sh ] && source /etc/profile.d/rvm.sh
   export RUBY_HOME=${MY_RUBY_HOME:-/opt/sensu/embedded}
 
   INNER_GEM_HOME=$($RUBY_HOME/bin/ruby -e 'print ENV["GEM_HOME"]')

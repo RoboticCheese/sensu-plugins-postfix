@@ -6,7 +6,7 @@
 
 set -e
 
-source /etc/profile
+[ -e /etc/profile.d/rvm.sh ] && source /etc/profile.d/rvm.sh
 DATA_DIR=/tmp/kitchen/data
 RUBY_HOME=${MY_RUBY_HOME:-/opt/sensu/embedded}
 

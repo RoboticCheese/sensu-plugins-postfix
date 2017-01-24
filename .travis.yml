@@ -18,8 +18,10 @@ notifications:
     on_failure: always
 script:
 - rvm use --default $TRAVIS_RUBY_VERSION
-- echo 'export PATH="$PATH:/home/travis/.rvm/bin"' | sudo tee -a /etc/profile
-- echo 'source /home/travis/.rvm/scripts/rvm' | sudo tee -a /etc/profile
+- echo '#!/bin/bash' | sudo tee /etc/profile.d/rvm.sh
+- echo 'export PATH="$PATH:/home/travis/.rvm/bin"' | sudo tee -a /etc/profile.d/rvm.sh
+- echo 'source /home/travis/.rvm/scripts/rvm' | sudo tee -a /etc/profile.d/rvm.sh
+- sudo chmod +x /etc/profile.d/rvm.sh
 - bundle exec rake default
 - bundle exec kitchen test
 - sudo chown -R travis:travis /home/travis/.rvm
