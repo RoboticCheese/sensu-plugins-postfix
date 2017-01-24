@@ -10,12 +10,6 @@ rvm:
 - 2.1
 - 2.2
 - 2.3
-notifications:
-  email:
-    recipients:
-    - sensu-plugin@sensu-plugins.io
-    on_success: change
-    on_failure: always
 script:
 - rvm use --default $TRAVIS_RUBY_VERSION
 - echo '#!/bin/bash' | sudo tee /etc/profile.d/rvm.sh
@@ -27,19 +21,7 @@ script:
 - sudo chown -R travis:travis /home/travis/.rvm
 - gem build sensu-plugins-postfix.gemspec
 - gem install sensu-plugins-postfix-*.gem
+- cat /tmp/break
 env:
   global:
     - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
-deploy:
-  provider: rubygems
-  api_key:
-    secure: LkxKFc6KYmwTfuwIhFWSktky5TiJMvI79+RpHaX3BUyEnqZMAVNxtmTXpWqqglXGjgEGeClYl1WMCXIamw2zeLlK6CEuBJXcVXs4O27UKkvfzVmiDYBITPtF02mTVCTYd5NNch67Rh5rT7wTN2hxWbiE2OFw6/WIF9hD2mr1484=
-  gem: sensu-plugins-postfix
-  on:
-    tags: true
-    all_branches: true
-    rvm: 2.0
-    rvm: 2.1
-    rvm: 2.2
-    rvm: 2.3
-    repo: sensu-plugins/sensu-plugins-postfix
