@@ -60,7 +60,7 @@ populate_deferred_queue() {
 @test "Check default (all) queue, ok" {
   populate_hold_queue 2
   populate_queue 3
-  run $CHECK_MAIL_DELAY -w 10 -c 20
+  run $CHECK -w 10 -c 20
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix mail queue older than 3600 seconds" ]
 }
@@ -69,7 +69,7 @@ populate_deferred_queue() {
   populate_hold_queue 3
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -d 1 -w 4 -c 20
+  run $CHECK -d 1 -w 4 -c 20
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -78,7 +78,7 @@ populate_deferred_queue() {
   populate_hold_queue 1
   populate_queue 4
   sleep 2
-  run $CHECK_MAIL_DELAY -d 1 -w 4 -c 5
+  run $CHECK -d 1 -w 4 -c 5
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -86,7 +86,7 @@ populate_deferred_queue() {
 @test "Check all queues, ok" {
   populate_hold_queue 3
   populate_queue 2
-  run $CHECK_MAIL_DELAY -q all -w 10 -c 20
+  run $CHECK -q all -w 10 -c 20
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix mail queue older than 3600 seconds" ]
 }
@@ -95,7 +95,7 @@ populate_deferred_queue() {
   populate_hold_queue 3
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -q all -d 1 -w 4 -c 20
+  run $CHECK -q all -d 1 -w 4 -c 20
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -104,7 +104,7 @@ populate_deferred_queue() {
   populate_hold_queue 3
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -q all -d 1 -w 4 -c 5
+  run $CHECK -q all -d 1 -w 4 -c 5
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -113,7 +113,7 @@ populate_deferred_queue() {
   populate_hold_queue 10
   populate_deferred_queue 1
   populate_queue 5
-  run $CHECK_MAIL_DELAY -q active -w 10 -c 20
+  run $CHECK -q active -w 10 -c 20
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix active queue older than 3600 seconds" ]
 }
@@ -122,7 +122,7 @@ populate_deferred_queue() {
   populate_hold_queue 10
   populate_queue 5
   sleep 2
-  run $CHECK_MAIL_DELAY -q active -d 1 -w 4 -c 20
+  run $CHECK -q active -d 1 -w 4 -c 20
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix active queue older than 1 seconds" ]
 }
@@ -131,7 +131,7 @@ populate_deferred_queue() {
   populate_hold_queue 10
   populate_queue 5
   sleep 2
-  run $CHECK_MAIL_DELAY -q active -d 1 -w 4 -c 5
+  run $CHECK -q active -d 1 -w 4 -c 5
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 5 messages in the postfix active queue older than 1 seconds" ]
 }
@@ -141,7 +141,7 @@ populate_deferred_queue() {
   populate_hold_queue 10
   populate_queue 5
   sleep 2
-  run $CHECK_MAIL_DELAY -q incoming -w 1 -c 1
+  run $CHECK -q incoming -w 1 -c 1
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix incoming queue older than 3600 seconds" ]
 }
@@ -150,7 +150,7 @@ populate_deferred_queue() {
   populate_hold_queue 10
   populate_deferred_queue 2
   populate_queue 1
-  run $CHECK_MAIL_DELAY -q deferred -w 5 -c 10
+  run $CHECK -q deferred -w 5 -c 10
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix deferred queue older than 3600 seconds" ]
 }
@@ -160,7 +160,7 @@ populate_deferred_queue() {
   populate_deferred_queue 2
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -q deferred -d 1 -w 2 -c 5
+  run $CHECK -q deferred -d 1 -w 2 -c 5
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 2 messages in the postfix deferred queue older than 1 seconds" ]
 }
@@ -170,7 +170,7 @@ populate_deferred_queue() {
   populate_deferred_queue 3
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -q deferred -d 1 -w 2 -c 3
+  run $CHECK -q deferred -d 1 -w 2 -c 3
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 3 messages in the postfix deferred queue older than 1 seconds" ]
 }
@@ -178,7 +178,7 @@ populate_deferred_queue() {
 @test "Check hold queue, ok" {
   populate_hold_queue 5
   populate_queue 2
-  run $CHECK_MAIL_DELAY -q hold -w 10 -c 20
+  run $CHECK -q hold -w 10 -c 20
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix hold queue older than 3600 seconds" ]
 }
@@ -187,7 +187,7 @@ populate_deferred_queue() {
   populate_hold_queue 5
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -q hold -d 1 -w 4 -c 20
+  run $CHECK -q hold -d 1 -w 4 -c 20
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix hold queue older than 1 seconds" ]
 }
@@ -196,7 +196,7 @@ populate_deferred_queue() {
   populate_hold_queue 10
   populate_queue 2
   sleep 2
-  run $CHECK_MAIL_DELAY -q hold -d 1 -w 5 -c 10
+  run $CHECK -q hold -d 1 -w 5 -c 10
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 10 messages in the postfix hold queue older than 1 seconds" ]
 }
