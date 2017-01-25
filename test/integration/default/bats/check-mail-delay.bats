@@ -3,8 +3,11 @@
 load "test_helper"
 
 setup() {
-  shared_setup
   export CHECK="$RUBY_HOME/bin/ruby $GEM_BIN/check-mail-delay.rb"
+
+  echo "=====" >> /tmp/break
+  echo "ENV inside setup():" >> /tmp/break
+  $RUBY_HOME/bin/ruby -e 'ENV.to_h.each { |k, v| puts "ENV #{k} => #{v}" }' >> /tmp/break
 }
 
 teardown() {
@@ -49,6 +52,7 @@ populate_deferred_queue() {
   populate_hold_queue 2
   populate_queue 3
   run $CHECK -w 10 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix mail queue older than 3600 seconds" ]
 }
@@ -58,6 +62,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -d 1 -w 4 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -67,6 +72,7 @@ populate_deferred_queue() {
   populate_queue 4
   sleep 2
   run $CHECK -d 1 -w 4 -c 5
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -75,6 +81,7 @@ populate_deferred_queue() {
   populate_hold_queue 3
   populate_queue 2
   run $CHECK -q all -w 10 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix mail queue older than 3600 seconds" ]
 }
@@ -84,6 +91,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -q all -d 1 -w 4 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -93,6 +101,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -q all -d 1 -w 4 -c 5
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 5 messages in the postfix mail queue older than 1 seconds" ]
 }
@@ -102,6 +111,7 @@ populate_deferred_queue() {
   populate_deferred_queue 1
   populate_queue 5
   run $CHECK -q active -w 10 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix active queue older than 3600 seconds" ]
 }
@@ -111,6 +121,7 @@ populate_deferred_queue() {
   populate_queue 5
   sleep 2
   run $CHECK -q active -d 1 -w 4 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix active queue older than 1 seconds" ]
 }
@@ -120,6 +131,7 @@ populate_deferred_queue() {
   populate_queue 5
   sleep 2
   run $CHECK -q active -d 1 -w 4 -c 5
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 5 messages in the postfix active queue older than 1 seconds" ]
 }
@@ -130,6 +142,7 @@ populate_deferred_queue() {
   populate_queue 5
   sleep 2
   run $CHECK -q incoming -w 1 -c 1
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix incoming queue older than 3600 seconds" ]
 }
@@ -139,6 +152,7 @@ populate_deferred_queue() {
   populate_deferred_queue 2
   populate_queue 1
   run $CHECK -q deferred -w 5 -c 10
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix deferred queue older than 3600 seconds" ]
 }
@@ -149,6 +163,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -q deferred -d 1 -w 2 -c 5
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 2 messages in the postfix deferred queue older than 1 seconds" ]
 }
@@ -159,6 +174,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -q deferred -d 1 -w 2 -c 3
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 3 messages in the postfix deferred queue older than 1 seconds" ]
 }
@@ -167,6 +183,7 @@ populate_deferred_queue() {
   populate_hold_queue 5
   populate_queue 2
   run $CHECK -q hold -w 10 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 0 ]
   [ "$output" = "PostfixMailDelay OK: 0 messages in the postfix hold queue older than 3600 seconds" ]
 }
@@ -176,6 +193,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -q hold -d 1 -w 4 -c 20
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 1 ]
   [ "$output" = "PostfixMailDelay WARNING: 5 messages in the postfix hold queue older than 1 seconds" ]
 }
@@ -185,6 +203,7 @@ populate_deferred_queue() {
   populate_queue 2
   sleep 2
   run $CHECK -q hold -d 1 -w 5 -c 10
+  echo "Status: $status, output: $output" >> /tmp/break
   [ $status = 2 ]
   [ "$output" = "PostfixMailDelay CRITICAL: 10 messages in the postfix hold queue older than 1 seconds" ]
 }

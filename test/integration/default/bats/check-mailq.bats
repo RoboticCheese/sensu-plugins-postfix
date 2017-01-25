@@ -3,7 +3,6 @@
 load "test_helper"
 
 setup() {
-  shared_setup
   export CHECK="$RUBY_HOME/bin/ruby $GEM_BIN/check-mailq.rb"
 }
 
