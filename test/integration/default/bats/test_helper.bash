@@ -4,7 +4,9 @@ shared_setup() {
   if [ -z "$READY" ]; then
     unset GEM_HOME
     unset GEM_PATH
+    echo "Sourcing rvm.sh, `date`" >> /tmp/break
     [ -e /etc/profile.d/rvm.sh ] && source /etc/profile.d/rvm.sh
+    echo "Done sourcing rvm.sh, `date`" >> /tmp/break
 
     export RUBY_HOME=${MY_RUBY_HOME:-/opt/sensu/embedded}
 
