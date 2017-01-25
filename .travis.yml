@@ -11,6 +11,7 @@ rvm:
 - 2.2
 - 2.3
 script:
+- cat /home/travis/.rvm/scripts/rvm
 - rvm use --default $TRAVIS_RUBY_VERSION
 - echo '#!/bin/bash' | sudo tee /etc/profile.d/rvm.sh
 - echo 'export PATH="$PATH:/home/travis/.rvm/bin"' | sudo tee -a /etc/profile.d/rvm.sh
