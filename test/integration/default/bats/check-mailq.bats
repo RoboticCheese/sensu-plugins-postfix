@@ -1,20 +1,10 @@
 #!/usr/bin/env bats
 
-export OLD_RUBY_HOME=$RUBY_HOME
-export OLD_GEM_HOME=$GEM_HOME
-export OLD_GEM_PATH=$GEM_PATH
-
-unset GEM_HOME
-unset GEM_PATH
-[ -e /etc/profile.d/rvm.sh ] && source /etc/profile.d/rvm.sh
-export RUBY_HOME=${MY_RUBY_HOME:-/opt/sensu/embedded}
-
-INNER_GEM_HOME=$($RUBY_HOME/bin/ruby -e 'print ENV["GEM_HOME"]')
-[ -n "$INNER_GEM_HOME" ] && GEM_BIN=$INNER_GEM_HOME/bin || GEM_BIN=$RUBY_HOME/bin
-export CHECK="$RUBY_HOME/bin/ruby $GEM_BIN/check-mailq.rb"
-echo "Finished check-mailq setup, `date`" >> /tmp/break
+load "test_helper"
 
 setup() {
+  shared_setup
+  export CHECK="$RUBY_HOME/bin/ruby $GEM_BIN/check-mailq.rb"
 }
 
 teardown() {
@@ -188,8 +178,3 @@ populate_deferred_queue() {
   [ $status = 2 ]
   [ "$output" = "PostfixMailq CRITICAL: 10 messages in the postfix hold queue" ]
 }
-
-export RUBY_HOME=$OLD_RUBY_HOME
-export GEM_HOME=$OLD_GEM_HOME
-export GEM_PATH=$OLD_GEM_PATH
-echo "Finished check-mailq teardown, `date`" >> /tmp/break
