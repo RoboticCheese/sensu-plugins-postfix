@@ -3,6 +3,7 @@
 load "test_helper"
 
 setup() {
+  shared_setup
   export CHECK="$RUBY_HOME/bin/ruby $GEM_BIN/check-mail-delay.rb"
 
   echo "=====" >> /tmp/break
@@ -58,6 +59,9 @@ populate_deferred_queue() {
 }
 
 @test "Check default (all) queue, warning" {
+  echo "=====" >> /tmp/break
+  echo "ENV inside a test:" >> /tmp/break
+  $RUBY_HOME/bin/ruby -e 'ENV.to_h.each { |k, v| puts "ENV #{k} => #{v}" }' >> /tmp/break
   populate_hold_queue 3
   populate_queue 2
   sleep 2
