@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 shared_setup() {
+  echo "which Ruby?" >> /tmp/break
+  which -a ruby >> /tmp/break
   if [ $BATS_TEST_NUMBER = 1 ]; then
     unset GEM_HOME
     unset GEM_PATH
