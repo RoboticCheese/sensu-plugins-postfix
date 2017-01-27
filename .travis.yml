@@ -12,7 +12,8 @@ rvm:
 - 2.3
 script:
 - rvm use --default $TRAVIS_RUBY_VERSION
-- which -a ruby
+- sed -i "/^ENV_SUPATH/s/PATH=/PATH=$MY_RUBY_HOME\/bin:/" /etc/login.defs
+- sed -i "/^ENV_PATH/s/PATH=/PATH=$MY_RUBY_HOME\/bin:/" /etc/login.defs
 - echo '#!/bin/bash' | sudo tee /etc/profile.d/rvm.sh
 - echo 'export PATH="$PATH:/home/travis/.rvm/bin"' | sudo tee -a /etc/profile.d/rvm.sh
 - echo 'source /home/travis/.rvm/scripts/rvm' | sudo tee -a /etc/profile.d/rvm.sh
